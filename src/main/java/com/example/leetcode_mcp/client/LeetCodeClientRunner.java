@@ -1,0 +1,49 @@
+package com.example.leetcode_mcp.client;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+@Component
+@Profile("test-client")
+public class LeetCodeClientRunner implements CommandLineRunner {
+
+    private final LeetCodeClient client;
+
+    public LeetCodeClientRunner(LeetCodeClient client) {
+        this.client = client;
+    }
+
+    //    @Override
+//    public void run(String... args) {
+//        var query = """
+//                {
+//                  matchedUser(username: "%s") {
+//                    username
+//                    submitStats {
+//                      acSubmissionNum {
+//                        difficulty
+//                        count
+//                      }
+//                    }
+//                  }
+//                }
+//                """.formatted(client.getUsername());
+//
+//        System.err.println(client.query(query));
+//    }
+    @Override
+    public void run(String... args) {
+        System.err.println("=== USER PROFILE ===");
+        System.err.println(client.getUserProfile());
+
+        System.err.println("=== PROBLEM STATS ===");
+        System.err.println(client.getProblemStats());
+
+        System.err.println("=== RECENT SUBMISSIONS ===");
+        System.err.println(client.getRecentSubmissions(10));
+
+        System.err.println("=== CONTEST HISTORY ===");
+        System.err.println(client.getContestHistory());
+    }
+}
