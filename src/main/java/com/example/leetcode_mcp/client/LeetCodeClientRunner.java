@@ -35,15 +35,15 @@ public class LeetCodeClientRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
         System.err.println("=== USER PROFILE ===");
-        System.err.println(client.getUserProfile());
+        System.err.println(client.getUserProfile("prashuchaudhry"));
 
         System.err.println("=== PROBLEM STATS ===");
-        System.err.println(client.getProblemStats());
+        System.err.println(client.getProblemStats("prashuchaudhry"));
 
         System.err.println("=== RECENT SUBMISSIONS ===");
-        System.err.println(client.getRecentSubmissions(10));
+        System.err.println(client.getRecentSubmissions("prashuchaudhry", 5));
 
         System.err.println("=== CONTEST HISTORY ===");
-        System.err.println(client.getContestHistory());
+        System.err.println(client.getContestHistory("cosmicleo"));
     }
 }

@@ -4,6 +4,8 @@ import com.example.leetcode_mcp.client.LeetCodeClient;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class LeetCodeTools {
 
@@ -14,42 +16,67 @@ public class LeetCodeTools {
     }
 
     @Tool(description = """
-            Returns the LeetCode profile for the user including their global ranking,
-            reputation, star rating, and total accepted submissions broken down by difficulty
-            (Easy, Medium, Hard). Use this when asked about the user's overall profile or ranking.
+            Returns the LeetCode profile for one or more users including global ranking,
+            reputation, star rating, and total accepted submissions by difficulty (Easy, Medium, Hard).
+            Pass a single username or a comma-separated list of usernames to compare multiple users.
+            Returns an error message for any invalid or non-existent username.
             """)
-    public String getUserProfile() {
-        return client.getUserProfile();
+    public String getUserProfile(final List<String> usernames) {
+        return usernames.stream()
+                .map(username -> {
+                    var result = client.getUserProfile(username);
+                    if (result.contains("\"matchedUser\":null")) {
+                        return "User not found: " + username;
+                    }
+                    return result;
+                })
+                .reduce("", (a, b) -> a + "\n" + b);
     }
 
     @Tool(description = """
-            Returns the number of LeetCode problems solved broken down by difficulty:
-            Easy, Medium, and Hard. Also returns the total accepted submission count.
-            Use this when asked how many problems have been solved overall or by difficulty.
+            Returns problems solved broken down by difficulty (Easy, Medium, Hard)
+            for one or more LeetCode users.
+            Pass a single username or a comma-separated list of usernames to compare multiple users.
+            Returns an error message for any invalid or non-existent username.
             """)
-    public String getProblemStats() {
-        return client.getProblemStats();
+    public String getProblemStats(final List<String> usernames) {
+        return usernames.stream()
+                .map(username -> {
+                    var result = client.getProblemStats(username);
+                    if (result.contains("\"matchedUser\":null")) {
+                        return "User not found: " + username;
+                    }
+                    return result;
+                })
+                .reduce("", (a, b) -> a + "\n" + b);
     }
 
     @Tool(description = """
-            Returns the last N accepted LeetCode submissions for the user.
-            Each submission includes the problem title, slug, programming language, and timestamp.
-            Use this when asked about recent activity, recent submissions, or what problems
-            were solved recently. Default limit is 10, maximum is 20.
+            Returns the last N accepted LeetCode submissions for a single user.
+            Each submission includes problem title, slug, programming language, and timestamp.
+            Default limit is 10, maximum is 20.
+            Returns an error message if the username is invalid.
             """)
-    public String getRecentSubmissions(int limit) {
+    public String getRecentSubmissions(final String username, int limit) {
         if (limit < 1) limit = 10;
         if (limit > 20) limit = 20;
-        return client.getRecentSubmissions(limit);
+        var result = client.getRecentSubmissions(username, limit);
+        if (result.contains("\"recentAcSubmissionList\":null")) {
+            return "User not found: " + username;
+        }
+        return result;
     }
 
     @Tool(description = """
-            Returns the LeetCode contest history for the user including their contest rating,
-            global ranking among contest participants, total participants, top percentage,
-            and number of contests attended. Use this when asked about contest performance
-            or competitive programming rating.
+            Returns contest history for a single LeetCode user including contest rating,
+            global ranking, total participants, top percentage, and contests attended.
+            Returns an error message if the username is invalid or user has no contest history.
             """)
-    public String getContestHistory() {
-        return client.getContestHistory();
+    public String getContestHistory(final String username) {
+        var result = client.getContestHistory(username);
+        if (result.contains("\"userContestRanking\":null")) {
+            return "User not found or no contest history for: " + username;
+        }
+        return result;
     }
 }

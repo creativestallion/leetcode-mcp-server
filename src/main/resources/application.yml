@@ -9,10 +9,12 @@ spring:
       server:
         name: leetcode-mcp-server
         version: 0.1.0
-
-leetcode:
-  username: prashuchaudhry
+        stdio: true
 
 logging:
+#  pattern:
+#    console: ""
   level:
     root: WARN
+  file:
+    name: /tmp/leetcode-mcp.log
