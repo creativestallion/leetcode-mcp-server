@@ -4,14 +4,14 @@ spring:
       enabled: true
 
   application:
-    name: leetcode-mcp-server
+    name: cp-stats-mcp-server
   main:
     web-application-type: none
     banner-mode: off
   ai:
     mcp:
       server:
-        name: leetcode-mcp-server
+        name: cp-stats-mcp-server
         version: 0.1.0
         stdio: true
 

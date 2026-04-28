@@ -226,14 +226,6 @@ LeetCode GraphQL, Codeforces REST, and GitHub REST all serve public profile data
 
 ---
 
-## Roadmap
-
-- [ ] AtCoder support
-- [ ] Web UI for browser-based access
-- [ ] Cross-platform comparison (LeetCode + Codeforces + GitHub in one query)
-
----
-
 ## License
 
 MIT

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>leetcode-mcp</artifactId>
+	<artifactId>cp-stats-mcp-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
-	<description/>
+    <description>MCP server exposing competitive programming and developer profile data as LLM-callable tools</description>
 	<url/>
 	<licenses>
 		<license/>
